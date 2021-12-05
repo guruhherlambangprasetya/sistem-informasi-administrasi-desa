@@ -1,0 +1,7 @@
+Akun Administrator
+Nama pengguna : admindesa
+Kata sandi : admin
+
+Akun Pengelola Data
+Nama pengguna : pengelola
+Kata sandi : 12345
