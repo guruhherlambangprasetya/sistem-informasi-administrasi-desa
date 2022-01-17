@@ -72,6 +72,7 @@
 							Pengelola RW 017</a></td>
 				</tr>
 			</table>
+			<legend></legend>
 		</div>
 	</div>
 
@@ -85,15 +86,15 @@
 		echo form_open('c_kontak/simpan_kontak/', $attributes); ?>
 		<div class="form-group has-feedback">
 			<label class="sr-only" for="nama">Nama</label>
-			<input type="text" class="form-control input-md" placeholder="Nama Lengkap dengan benar" id="nama" name="nama" required>
+			<input type="text" class="form-control input-md" placeholder="Nama Lengkap dengan benar" id="nama_komentar" name="nama_komentar" required>
 		</div>
 		<div class="form-group has-feedback">
 			<label class="sr-only" for="email">Alamat Email</label>
-			<input type="email" class="form-control input-md" placeholder="Alamat Email dengan benar" id="email" name="email" required>
+			<input type="email" class="form-control input-md" placeholder="Alamat Email dengan benar" id="email_komentar" name="email_komentar" required>
 		</div>
 		<div class="form-group has-feedback">
-			<label class="sr-only" for="pesan">Pesan</label>
-			<textarea class="form-control input-md" rows="2" placeholder="Isi Pesan dengan sopan" id="pesan" name="pesan" required></textarea>
+			<label class="sr-only" for="pesan">Komentar Anda</label>
+			<textarea class="form-control input-md" rows="2" placeholder="Isi Komentar anda dengan sopan" id="isi_komentar" name="isi_komentar" required></textarea>
 		</div>
 
 		<div class="form-group has-feedback">

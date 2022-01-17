@@ -71,6 +71,7 @@
 						''=>'-- Pilih --',
 						'Administrator' => 'Administrator',
 						'Pengelola Data' => 'Pengelola Data',
+            'Warga' => 'Warga',
 						);
 					$id = 'id="role" class="form-control input-md" required';
 				echo form_dropdown('role',$options,'',$id); ?>

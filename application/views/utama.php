@@ -3,7 +3,7 @@
 
 <head>
 	<title><?= $page_title ?></title>
-    <link rel="shortcut icon" href="<?php echo base_url();?>assetku/img/sideka.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="<?php echo base_url();?>assetku/img/bekasi.ico" type="image/x-icon" />
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo base_url(); ?>assetku/css/bootstrap.min.css" rel="stylesheet">
 
@@ -78,7 +78,8 @@
 						{
 							echo site_url('c_pengelolaData');
 						}?>"> 
-						<img src="<?php echo base_url(); ?>assetku/img/logo_caringin_nunggal.png" style="float:left; height:fixed; width:30%; margin-top:2px; margin-bottom:2px;"> 
+						
+						<img src="<?php echo base_url(); ?>assetku/img/bekasi.png" style="float:left; height:fixed; width:30%; margin-top:2px; margin-bottom:2px;"> 
 					</a>
 					</div>
 	    					

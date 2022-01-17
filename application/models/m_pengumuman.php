@@ -29,64 +29,42 @@ class M_pengumuman extends CI_Model {
         //Return all
         return $return;
     }
-	function insertPengumuman($data){
+	
+	function insertpengumuman($data){
 		$this->db->insert($this->_table, $data);
 	}
 	
-	function deletePengumuman($id){
-		$this->db->where('id_pengumuman', $id);	
-		$this->db->delete($this->_table);
-	}
-	  
-	function updatePengumuman($where, $data){
+	function updatepengumuman($where, $data)
+	{
 		$this->db->where($where);
 		$this->db->update($this->_table, $data);
 		return $this->db->affected_rows();
 	}
-  
-    function getPengumumanByIdpengumuman($id)
+	
+	function deleteAgenda($id){
+		$this->db->where('id_agenda', $id);
+		$this->db->delete($this->_table);
+	}
+	
+	function getpengumumanByIdpengumuman($id)
 	{	
-		 $this->db->select('tbl_pengumuman.*,tbl_pengguna.nama_pengguna as nama_pengguna')->from($this->_table);
-		 $this->db->join('tbl_pengguna','tbl_pengumuman.id_pengguna = tbl_pengguna.id_pengguna ');
-		 $this->db->where('tbl_pengumuman.id_pengumuman', $id);
-		 return  $this->db->get()->row();
-		//return $this->db->get_where($this->_table,array('id_pengumuman' => $id))->row();
-	}
- 
-	public function get_recent_pengumuman(){
-		$this->db->order_by("waktu", "desc");
-		return $this->db->get('tbl_pengumuman',4,0)->result();
+		return $this->db->get_where($this->_table,array('id_pengumuman' => $id))->row();
 	}
 	
-	public function get_recent_pengumuman_all(){
-		 $this->db->select('tbl_pengumuman.*,tbl_pengguna.nama_pengguna as nama_pengguna')->from($this->_table);
-		 $this->db->join('tbl_pengguna','tbl_pengumuman.id_pengguna = tbl_pengguna.id_pengguna ');
-		$this->db->order_by("waktu", "desc");
-		return $this->db->get()->result();
+	function getpengumumanByIdIdpengumuman($id_pengumuman)
+	{
+		$this->db->select('tanggal');
+		$this->db->where('id_pengumuman', $id_pengumuman);
+		$q = $this->db->get('tbl_pengumuman');
+		//if id is unique we want just one row to be returned
+		$data = array_shift($q->result_array());
+		return ($data['tanggal']);
 	}
 	
-	public function pengumuman_all(){
-		 $this->db->select('tbl_pengumuman.id_pengumuman, 
-		 tbl_pengumuman.gambar, 
-		 tbl_pengumuman.judul_pengumuman, 
-		 tbl_pengumuman.isi_pengumuman, 
-		 tbl_pengumuman.waktu, 
-		 tbl_pengguna.nama_pengguna as nama_pengguna')->from($this->_table);
-		 $this->db->join('tbl_pengguna','tbl_pengumuman.id_pengguna = tbl_pengguna.id_pengguna ');
-		 $this->db->order_by('tbl_pengumuman.waktu','desc');
-		
+	public function getpengumuman(){
+		return $this->db->get('tbl_pengumuman')->result();
 	}
 	
-	public function pengumuman_all_numrows(){
-		 $this->db->select('tbl_pengumuman.id_pengguna, 
-		 tbl_pengumuman.gambar, 
-		 tbl_pengumuman.judul_pengumuman, 
-		 tbl_pengumuman.isi_pengumuman, 
-		 tbl_pengumuman.waktu, 
-		 tbl_pengguna.nama_pengguna as nama_pengguna')->from($this->_table);
-		 $this->db->join('tbl_pengguna','tbl_pengumuman.id_pengguna = tbl_pengguna.id_pengguna ');
-		 $this->db->order_by('tbl_pengumuman.waktu','desc');
-		return $this->db->get()->num_rows();
-	}
+
 }
 ?>

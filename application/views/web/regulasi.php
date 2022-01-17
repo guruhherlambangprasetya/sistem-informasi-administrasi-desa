@@ -1,6 +1,6 @@
 <legend></legend>
 <div class="panel panel-danger">
-    <div class="panel-body"><center><h3>AGENDA KHUSUS RT & RW</h3></center></div>
+    <div class="panel-body"><center><h3>DOWNLOAD FILE SURAT PENTING KHUSUS RT</h3></center></div>
 	</div>
 </div>	
 <legend></legend>

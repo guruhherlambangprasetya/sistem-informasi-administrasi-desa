@@ -67,5 +67,18 @@ class C_berita extends CI_Controller {
 		$temp['footer'] = $this->load->view('v_footer',$data,TRUE);
 		$this->load->view('templateHome',$temp);
 	}
+	function getKomentarById($id){
+		$data['konten_logo'] = $this->m_logo->getLogo();
+		/* $data['komentar'] = $this->m_komentar->getKomentarById($id);
+		$data['menu'] = $this->load->view('web/menu/berita', $data, TRUE);		
+		$temp['content'] = $this->load->view('web/detail_berita',$data,TRUE);
+		$this->load->view('templateHome',$temp); */
+		$data['berita'] = $this->m_komentar->getKomentarById($id);
+		$data['logo'] = $this->load->view('v_logo', $data, TRUE);
+		$data['menu'] = $this->load->view('v_navbar', $data, TRUE);
+		$data['content'] = $this->load->view('web/komentar',$data,TRUE);
+		$temp['footer'] = $this->load->view('v_footer',$data,TRUE);
+		$this->load->view('templateHome',$temp);
+	}
 }
 ?>

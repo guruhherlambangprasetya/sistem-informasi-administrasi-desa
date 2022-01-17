@@ -1,3 +1,4 @@
+
 <?php 	
 	$isi = $demografi->isi_demografi; 	
 	$banner = $demografi->foto_banner; 
@@ -60,7 +61,7 @@
 <center>  <h3><b>Lapangan Serbaguna khusus di lingkungan RW 017</b></h3></center> 
   <legend></legend>
   <blockquote>
-    <p>Segera membangun lapangan serbaguna beralamat : Jl. P.Selayar, RW.017, Aren Jaya, Kec. Bekasi Tim., Kota Bks, Jawa Barat 17111</p>
+    <p>Segera dibangun lapangan serbaguna beralamat : Jl. P.Selayar, RW.017, Aren Jaya, Kec. Bekasi Tim., Kota Bks, Jawa Barat 17111</p>
     <footer>Lapangan Serbaguna Rukun Warga 017<cite title="Lapangan Serbaguna Rukun Warga 017"></cite></footer>
   </blockquote>
 </div>

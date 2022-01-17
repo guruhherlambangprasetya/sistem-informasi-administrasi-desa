@@ -1,181 +1,185 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 session_start();
 
-class C_kontak extends CI_Controller {
+class C_kontak extends CI_Controller
+{
 
-    public function  __construct()
-    {
+	public function  __construct()
+	{
 		parent::__construct();
-		 //Load flexigrid helper and library
-        $this->load->helper('flexigrid_helper');
-        $this->load->library('flexigrid');
-        $this->load->helper('form');
+		//Load flexigrid helper and library
+		$this->load->helper('flexigrid_helper');
+		$this->load->library('flexigrid');
+		$this->load->helper('form');
 		$this->load->model('m_kontak');
 		$this->load->helper('text');
 		$this->load->helper('url');
-    }
-	
-	 function index()    {
+	}
+
+	function index()
+	{
 		$session['hasil'] = $this->session->userdata('logged_in');
 		$role = $session['hasil']->role;
-		if($this->session->userdata('logged_in') AND $role == 'Administrator')
-		{
+		if ($this->session->userdata('logged_in') and $role == 'Administrator') {
 			$this->lists();
-		}else
-			$this->load->view('v_login',true);
-        	
-    }
-	
-	function lists() {
-        $colModel['id_kontak'] = array('ID',50,TRUE,'left',0);	
-		$colModel['nama'] = array('Nama',150,TRUE,'left',2);
-		$colModel['email'] = array('Email',150,TRUE,'left',2);
-		$colModel['pesan'] = array('Pesan',150,TRUE,'center',2);
-		$colModel['waktu'] = array('Waktu',150,TRUE,'center',2);
-        $colModel['aksi'] = array('AKSI',60,FALSE,'center',0);
-		
-		//Populate flexigrid buttons..
-        $buttons[] = array('Select All','check','btn');
-		$buttons[] = array('separator');
-        $buttons[] = array('DeSelect All','uncheck','btn');
-        $buttons[] = array('separator');
-        $buttons[] = array('Delete Selected Items','delete','btn');
-        $buttons[] = array('separator');
-       		
-        $gridParams = array(
-            'height' => 300,
-            'rp' => 10,
-            'rpOptions' => '[10,20,30,40]',
-            'pagestat' => 'Displaying: {from} to {to} of {total} items.',
-            'blockOpacity' => 0.5,
-            'title' => '',
-            'showTableToggleBtn' => false
-	);
+		} else
+			$this->load->view('v_login', true);
+	}
 
-        $grid_js = build_grid_js('flex1',site_url('c_kontak/load_data'),$colModel,'id_kontak','desc',$gridParams,$buttons);
+	function lists()
+	{
+		$colModel['no'] = array('No', 50, TRUE, 'left', 0);
+		$colModel['nama'] = array('Nama', 150, TRUE, 'left', 2);
+		$colModel['email'] = array('Email', 150, TRUE, 'left', 2);
+		$colModel['pesan'] = array('Pesan', 150, TRUE, 'center', 2);
+		$colModel['waktu'] = array('Waktu', 150, TRUE, 'center', 2);
+		$colModel['aksi'] = array('AKSI', 60, FALSE, 'center', 0);
+
+		//Populate flexigrid buttons..
+		$buttons[] = array('Select All', 'check', 'btn');
+		$buttons[] = array('separator');
+		$buttons[] = array('DeSelect All', 'uncheck', 'btn');
+		$buttons[] = array('separator');
+		$buttons[] = array('Delete Selected Items', 'delete', 'btn');
+		$buttons[] = array('separator');
+
+		$gridParams = array(
+			'height' => 300,
+			'rp' => 10,
+			'rpOptions' => '[10,20,30,40]',
+			'pagestat' => 'Displaying: {from} to {to} of {total} items.',
+			'blockOpacity' => 0.5,
+			'title' => '',
+			'showTableToggleBtn' => false
+		);
+
+		$grid_js = build_grid_js('flex1', site_url('c_kontak/load_data'), $colModel, 'id_kontak', 'desc', $gridParams, $buttons);
 
 		$data['js_grid'] = $grid_js;
 
-        $data['page_title'] = 'DATA KONTAK';		
+		$data['page_title'] = 'DATA KONTAK';
 		$data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
-        $data['content'] = $this->load->view('kontak/v_list', $data, TRUE);
-        $this->load->view('utama', $data);
-    }
-	
+		$data['content'] = $this->load->view('kontak/v_list', $data, TRUE);
+		$this->load->view('utama', $data);
+	}
 
-    function load_data() {	
-	
+
+	function load_data()
+	{
+
 		$this->load->library('flexigrid');
-        $valid_fields = array('id_kontak','nama','email','pesan');
+		$valid_fields = array('id_kontak', 'nama', 'email', 'pesan');
 
-		$this->flexigrid->validate_post('id_kontak','ASC',$valid_fields);
+		$this->flexigrid->validate_post('id_kontak', 'ASC', $valid_fields);
 		$records = $this->m_kontak->get_kontak_flexigrid();
-	
+
 		$this->output->set_header($this->config->item('json_header'));
-	
+
 		$record_items = array();
-		
-		foreach ($records['records']->result() as $row)
-		{
+		$counter = 0;
+		foreach ($records['records']->result() as $row) {
+			$counter++;
+
 			$record_items[] = array(
 				$row->id_kontak,
-				$row->id_kontak,
+				$counter,
 				$row->nama,
 				$row->email,
 				$row->pesan,
-				 date('d-m-Y G:i',strtotime($row->waktu)),
-				'<button type="submit" class="btn btn-info btn-xs" title="Lihat Data Kontak" onclick="tampil_kontak(\''.$row->id_kontak.'\')"/><i class="fa fa-eye"></i></button>'
-			);  
+				date('d-m-Y G:i', strtotime($row->waktu)),
+				'<button type="submit" class="btn btn-info btn-xs" title="Lihat Data Kontak" onclick="tampil_kontak(\'' . $row->id_kontak . '\')"/><i class="fa fa-eye"></i></button>'
+			);
 		}
 		//Print please
-		$this->output->set_output($this->flexigrid->json_build($records['record_count'],$record_items));
-    }
-    
+		$this->output->set_output($this->flexigrid->json_build($records['record_count'], $record_items));
+	}
+
 	function tampil_kontak($id)
 	{
 		$session['hasil'] = $this->session->userdata('logged_in');
 		$role = $session['hasil']->role;
-		if($this->session->userdata('logged_in') AND $role == 'Administrator')
-		{
+		if ($this->session->userdata('logged_in') and $role == 'Administrator') {
 			//Atribut Kontak
 			$data['id_kontak'] = $id;
 			$data['page_title'] = 'Tampil Data Kontak';
 			$data['kontak'] = $this->m_kontak->getKontakById($id);
 			$data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
 			$data['content'] = $this->load->view('kontak/v_detil', $data, TRUE);
-        
+
 			$this->load->view('utama', $data);
-		}else
-			$this->load->view('v_login',true);
+		} else
+			$this->load->view('v_login', true);
 	}
-	
-	function simpan_kontak() {
-	
+
+	function simpan_kontak()
+	{
+
 		$nama = $this->input->post('nama', TRUE);
 		$email = $this->input->post('email', TRUE);
-		$pesan = $this->input->post('pesan', TRUE);		
-		
-		$realPerson = $this->input->post('aunt', TRUE);		
-		$realPersonHash = $this->input->post('auntHash', TRUE);		
-		
-		$this->form_validation->set_rules('nama', 'Nama', 'required');				
+		$pesan = $this->input->post('pesan', TRUE);
+
+		$realPerson = $this->input->post('aunt', TRUE);
+		$realPersonHash = $this->input->post('auntHash', TRUE);
+
+		$this->form_validation->set_rules('nama', 'Nama', 'required');
 		$this->form_validation->set_rules('pesan', 'Pesan', 'required');
-		
-		if ($this->form_validation->run() == TRUE)
-		{		
+
+		if ($this->form_validation->run() == TRUE) {
 			if ($this->rpHash($realPerson) == $realPersonHash) {
-				$email2=$this->cekNull($email);
+				$email2 = $this->cekNull($email);
 				$data = array(
 					'nama' => $nama,
 					'email' => $email2,
-					'pesan' => $pesan					
+					'pesan' => $pesan
 				);
 
-				$this->m_kontak->insertKontak($data);	
+				$this->m_kontak->insertKontak($data);
 				echo true;
 				//echo "bener";
-				}
-			else 
-			{
+			} else {
 				echo false;
-					//echo "salah";
+				//echo "salah";
 			}
-        }
-		else { redirect('web/c_home','refresh'); return false;}
-    }
-	
+		} else {
+			redirect('web/c_home', 'refresh');
+			return false;
+		}
+	}
+
 	function cekNull($parameter)
 	{
-		if($parameter==NULL)
-		{return ' ';}
-		else return $parameter;
+		if ($parameter == NULL) {
+			return ' ';
+		} else return $parameter;
 	}
-	
-	function delete()    {
-        $post = explode(",", $this->input->post('items'));
-        array_pop($post); $sucess=0;
-        foreach($post as $id){
-            $this->m_kontak->deleteKontak($id);
-            $sucess++;
-        }
-		if ($sucess > 0 ){
-            //echo 'Success delete '.$sucess.' item(s).';
-        }
-		else{
-            //echo 'No delete items';
-        }
-        redirect('c_kontak', 'refresh');
-    }
-	
- 	function rpHash($value) { 
-		$hash = 5381; 
-		$value = strtoupper($value); 
-		for($i = 0; $i < strlen($value); $i++) { 
-			$hash = (($hash << 5) + $hash) + ord(substr($value, $i)); 
-		} 
-		return $hash; 
-	}  
-	
+
+	function delete()
+	{
+		$post = explode(",", $this->input->post('items'));
+		array_pop($post);
+		$sucess = 0;
+		foreach ($post as $id) {
+			$this->m_kontak->deleteKontak($id);
+			$sucess++;
+		}
+		if ($sucess > 0) {
+			//echo 'Success delete '.$sucess.' item(s).';
+		} else {
+			//echo 'No delete items';
+		}
+		redirect('c_kontak', 'refresh');
+	}
+
+	function rpHash($value)
+	{
+		$hash = 5381;
+		$value = strtoupper($value);
+		for ($i = 0; $i < strlen($value); $i++) {
+			$hash = (($hash << 5) + $hash) + ord(substr($value, $i));
+		}
+		return $hash;
+	}
+
 	/*******PHP 64 BIT/*******/
 	/*
 	function rpHash($value) { 
@@ -204,4 +208,3 @@ class C_kontak extends CI_Controller {
 	} */
 	/*******END OF PHP 64 BIT/*******/
 }
-?>

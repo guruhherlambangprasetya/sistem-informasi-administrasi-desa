@@ -1,7 +1,6 @@
 <link href="<?=$this->config->item('base_url');?>css/flexigrid.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="<?=$this->config->item('base_url');?>js/jquery.pack.js"></script>
 <script type="text/javascript" src="<?=$this->config->item('base_url');?>js/flexigrid.pack.js"></script>
-
 <?php
 echo $js_grid;
 ?>
@@ -28,7 +27,7 @@ function btn(com,grid)
 	if (com=='Add')
     {
 		window.location = _base_url + 'admin/c_pengumuman/add';
-    }	
+    }
 	
 	if (com=='Delete Selected Items')
         {
@@ -55,16 +54,19 @@ function btn(com,grid)
 			} else {
 				return false;
 			}
-        }
-	
+        }	
 }
 
+$(function(){
+  
+});
 
 function nav_active(){
-	
+
 	document.getElementById("a-data-web").className = "collapsed active";
 	
-	document.getElementById("pengelola_data_web").className = "collapsed";
+	var r = document.getElementById("pengumuman");
+	r.className = "collapsed";
 
 	var d = document.getElementById("nav-pengumuman");
 	d.className = d.className + "active";

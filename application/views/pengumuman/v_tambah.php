@@ -10,46 +10,53 @@
 		}).panelInstance('xx1');
 	});
 </script>
-
-<h2><?= $page_title ?></h2>
+<h3><?= $page_title ?></h3>
 
 <?php $flashmessage = $this->session->flashdata('exist');
 	echo ! empty($flashmessage) ? '<p class="message">' . $flashmessage . '</p>': ''; ?>
 
-<?php echo form_open('admin/c_pengumuman/simpan_pengumuman'); ?>
+<?php echo form_open_multipart('admin/c_pengumuman/simpanpengumuman'); ?>
 <legend></legend>
-<input type="hidden" name="id_pengguna" id="id_pengguna" value="<?= $hasil->id_pengguna ?>" size="20" /> 
-	<div class="form-group"> 
-    	<label class="col-md-2 control-label" for="judul">Judul Pengumuman</label>
-        <div class="col-md-10">
-        <input class="form-control input-md"  type="text" name="judul" id="judul" placeholder="Judul Pengumuman"/>
-        
-		<span class="help-block"><?php echo form_error('judul', '<p class="field_error">', '</p>'); ?>
+    <div class="form-group">
+    	 <label  class="col-sm-4 control-label" for="tanggal">Tanggal</label>
+        <div class="col-sm-5">
+         <span class="help-block">
+         <input class="form-control input-md" type="date" name="tanggal" id="tanggal" /> 
+		<?php echo form_error('tanggal', '<p class="field_error">','</p>')?>
 		</span>
 		</div>
 	</div>
-	<div class="form-group"> 
-		<div class="image-editor ">	
-			<label class="col-md-2 control-label" for="">Gambar Pengumuman</label>
-			<div class="col-md-4">
-				<div id="lihat">
-					<div class="cropit-image-preview" ></div>				
-					<input type="range" class="cropit-image-zoom-input" style="width:692px">
-					 <span class="help-block">
-						<div align="left">Gambar harus bertipe .jpg</div>
-					<input type="file" id="userfile" class="cropit-image-input custom" accept="image/*">
-					<input type="hidden" name="image-data" class="hidden-image-data" />	
-					</span>
-				</div>
-			</div>
-		</div>				
-	</div>	
-<legend></legend>	
+	<legend></legend>
+    <div class="form-group">
+    	 <label  class="col-sm-4 control-label" for="waktu">Waktu</label>
+        <div class="col-sm-5">
+         <span class="help-block">
+		 <div class="input-group date">
+                  <div class="input-group-addon">
+         <i class="fa fa-clock-o"></i></div><input class="form-control input-md" type="time" name="waktu" id="waktu" size="5" /> 
+		<?php echo form_error('waktu', '<p class="field_error">','</p>')?>
+	</span>
+		</div>
+		</div>
+	<legend></legend>
+    <div class="form-group">
+    	 <label  class="col-sm-4 control-label" for="tempat">Tempat</label>
+        <div class="col-sm-5">
+         <span class="help-block">
+		 <div class="input-group date">
+                  <div class="input-group-addon">
+         <i class="fa fa-location-arrow"></i></div>
+         <input class="form-control input-md" type="tempat" name="tempat" id="tempat" size="5" /> 
+		<?php echo form_error('tempat', '<p class="field_error">','</p>')?>
+		</span>
+		</div>
+	</div>
+	<legend></legend>	
 <div class="form-group"> 
-	<label class="col-md-2 control-label" for="isi">Pengumuman</label>
-	 <div class="col-md-10">
+	<label class="col-sm-4 control-label" for="acara">Isi Acara</label>
+	 <div class="col-sm-5">
 	 
-	 <textarea class="form-control input-md" id="xxx" name="isi" placeholder="Describe yourself here..." ></textarea>
+	 <textarea class="form-control input-md" id="xxx" name="acara" placeholder="Describe yourself here..." ></textarea>
 	<span class="help-block"></span>
 	</div>
 </div>
@@ -64,80 +71,14 @@
 
 <?php echo form_close(); ?>
 
-<style>
-		/* Show load indicator when image is being loaded */
-		.cropit-image-preview.cropit-image-loading .spinner {
-		opacity: 1;
-		}
-
-		/* Show move cursor when image has been loaded */
-		.cropit-image-preview.cropit-image-loaded {
-		cursor: move;
-		}
-
-		/* Gray out zoom slider when the image cannot be zoomed */
-		.cropit-image-zoom-input[disabled] {
-		opacity: .2;
-		}
-
-		
-      .cropit-image-preview {
-        background-color: #f8f8f8;
-        background-size: cover;
-        border: 1px solid #ccc;
-        border-radius: 3px;
-        margin-top: 7px;
-        width: 692px;
-        height: 252px;
-        cursor: move;
-      }
-
-      .cropit-image-background {
-        opacity: .2;
-        cursor: auto;
-      }
-
-      .image-size-label {
-        margin-top: 10px;
-      }
-
-      input {
-        display: block;
-      }
-
-      button[type="submit"] {
-        margin-top: 10px;
-      }
-     
-    </style>	
-<script src="<?php echo base_url(); ?>assetku/cropit/jquery.cropit.js"></script> 
 
 <script>
-$(function() {
-  
-$('.image-editor').cropit({
-  imageState: {
-	src: '<?php echo site_url('uploads/defaultFotoPenduduk.jpg');?>'
-  }
-});
-  
-$('form').submit(function() {
-	  // Move cropped image data to hidden input
-	 var imageData = $('.image-editor').cropit('export', {
-		  type: 'image/jpeg',
-		  quality: 1,
-		  originalSize: false
-		});		
-	  $('.hidden-image-data').val(imageData);
-		
-	  // Prevent the form from actually submitting
-	  return true;
-	});
-  });
 
 function nav_active(){
+
 	document.getElementById("a-data-web").className = "collapsed active";
-	var r = document.getElementById("pengelola_data_web");
+	
+	var r = document.getElementById("pengumuman");
 	r.className = "collapsed";
 
 	var d = document.getElementById("nav-pengumuman");
@@ -147,23 +88,5 @@ function nav_active(){
 // very simple to use!
 $(document).ready(function() {
   nav_active();
-});
-</script>
-
-<script>
-function readURL(input) {
-
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            $('#userfile').attr('src', e.target.result);		
-        }
-        reader.readAsDataURL(input.files[0]);
-    }
-}
-$("#userfile").change(function(){
-    readURL(this);
-	{document.getElementById("lihat").style.display = "block";}
 });
 </script>

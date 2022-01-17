@@ -1,4 +1,5 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+setlocale(LC_TIME, 'IND');
 
 class C_pengumuman extends CI_Controller {
 
@@ -10,11 +11,7 @@ class C_pengumuman extends CI_Controller {
         $this->load->helper('flexigrid_helper');
         $this->load->library('flexigrid');
         $this->load->helper('form');
-		$this->load->helper('date');
-		$this->load->helper('text');
         $this->load->model('m_pengumuman');
-		$this->load->model('m_user');
-		$this->load->model('m_pages');
     }
 
     function index()    {
@@ -24,17 +21,17 @@ class C_pengumuman extends CI_Controller {
 		{
 			$this->lists();
 		}else
-			redirect('c_login', 'refresh');   
+			redirect('c_login', 'refresh');
         	
     }
 
     function lists() {
-	
-	$colModel['No'] = array('No',35,TRUE,'center',0);
-    $colModel['judul_pengumuman'] = array('Judul Pengumuman',400,TRUE,'center',2);
-	
-	$colModel['waktu'] = array('Waktu Pengumuman',100,TRUE,'center',2);
-	$colModel['aksi'] = array('AKSI',60,FALSE,'center',0);
+        $colModel['no'] = array('No',30,TRUE,'center',2);
+        $colModel['tanggal'] = array('Tanggal',150,TRUE,'center',2);
+		$colModel['waktu'] = array('Waktu',200,TRUE,'center',2);
+		$colModel['tempat'] = array('Tempat',200,TRUE,'center',2);
+		$colModel['acara'] = array('Acara',200,TRUE,'center',2);
+        $colModel['aksi'] = array('AKSI',60,FALSE,'center',2);
 		
 		//Populate flexigrid buttons..
         $buttons[] = array('Select All','check','btn');
@@ -43,11 +40,11 @@ class C_pengumuman extends CI_Controller {
         $buttons[] = array('separator');
 		$buttons[] = array('Add','add','btn');
         $buttons[] = array('separator');
-		$buttons[] = array('Delete Selected Items','delete','btn');
+        $buttons[] = array('Delete Selected Items','delete','btn');
         $buttons[] = array('separator');
        		
         $gridParams = array(
-            'height' => 400,
+            'height' => 300,
             'rp' => 10,
             'rpOptions' => '[10,20,30,40]',
             'pagestat' => 'Displaying: {from} to {to} of {total} items.',
@@ -56,22 +53,21 @@ class C_pengumuman extends CI_Controller {
             'showTableToggleBtn' => false
 	);
 
-        $grid_js = build_grid_js('flex1',site_url('admin/c_pengumuman/load_data'),$colModel,'waktu','desc',$gridParams,$buttons);
+        $grid_js = build_grid_js('flex1',site_url('admin/c_pengumuman/load_data'),$colModel,'no','asc',$gridParams,$buttons);
 
 		$data['js_grid'] = $grid_js;
 
-        $data['page_title'] = 'PENGUMUMAN';		
+        $data['page_title'] = 'Pengumuman';		
 		$data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
         $data['content'] = $this->load->view('pengumuman/v_list', $data, TRUE);
         $this->load->view('utama', $data);
     }
 
-    function load_data() {
+    function load_data() {	
+		$this->load->library('flexigrid');
+        $valid_fields = array('id_pengumuman','tanggal','waktu','tempat','acara');
 
-        $this->load->library('flexigrid');
-        $valid_fields = array('judul_pengumuman','isi_pengumuman','waktu');
-
-		$this->flexigrid->validate_post('judul_pengumuman','DESC',$valid_fields);
+		$this->flexigrid->validate_post('id_pengumuman','ASC',$valid_fields);
 		$records = $this->m_pengumuman->get_pengumuman_flexigrid();
 	
 		$this->output->set_header($this->config->item('json_header'));
@@ -83,14 +79,13 @@ class C_pengumuman extends CI_Controller {
 			$counter++;
 			$record_items[] = array(
 				$row->id_pengumuman,
-				$counter,
-                $row->judul_pengumuman,
-				//substr($row->isi_pengumuman,0,10),
-				date('j-m-Y ',strtotime($row->waktu)),
-//				'<input type="button" value="Edit" class="ubah" onclick="edit_pengumuman(\''.$row->id_pengumuman.'\')"/>'
-				'<button type="submit" class="btn btn-default btn-xs" title="Edit" onclick="edit_pengumuman(\''.$row->id_pengumuman.'\')"/>
-			<i class="fa fa-pencil"></i>
-			</button>'
+                $counter,
+                $row->tanggal,
+				$row->waktu,
+				$row->tempat,
+				$row->acara,
+//				'<input type="button" value="Edit" class="ubah" onclick="edit_pengumuman\''.$row->id_pengumuman.'\')"/>'
+				 '<button type="submit" class="btn btn-default btn-xs" title="Edit" onclick="edit_pengumuman(\''.$row->id_pengumuman.'\')"/><i class="fa fa-pencil"></i></button>'
 			);  
 		}
 		//Print please
@@ -101,150 +96,94 @@ class C_pengumuman extends CI_Controller {
 		$session['hasil'] = $this->session->userdata('logged_in');
 		$role = $session['hasil']->role;
 		if($this->session->userdata('logged_in') AND $role == 'Administrator')
-		{	
-			$s['cek'] = $this->session->userdata('logged_in');
-			$x = $s['cek']->id_pengguna;
-			
-			$data['hasil'] = $this->m_user->getUserByIdPengguna($x);
-			$data['page_title'] = 'TAMBAH PENGUMUMAN';
+		{
+			$data['page_title'] = 'Tambah Pengumuman';
 			$data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
-			$data['content'] = $this->load->view('pengumuman/v_tambah', $data, TRUE);		
+			$data['content'] = $this->load->view('pengumuman/v_tambah', $data, TRUE);
+							
 			$this->load->view('utama', $data);
 		}else
-			redirect('c_login', 'refresh');   
+			redirect('c_login', 'refresh');
         
     }
 	
-	function simpan_pengumuman() {
-	
-		$judul = $this->input->post('judul', TRUE);
-		$gambar = $this->input->post('gambar', TRUE);
-		$berita = $this->input->post('isi', TRUE);
-		$user = $this->input->post('id_pengguna', TRUE);
-		 
-		$this->form_validation->set_rules('judul', 'Judul Pengumuman', 'required');
+	function simpanpengumuman() {
+		$tanggal = $this->input->post('tanggal', TRUE);
+		$waktu = $this->input->post('waktu', TRUE);
+		$tempat = $this->input->post('tempat', TRUE);
+		$acara = $this->input->post('acara', TRUE);	
+		
+		$this->form_validation->set_rules('tempat', 'Tempat', 'required');
+		$this->form_validation->set_rules('acara', 'Acara', 'required');
 
-		
-		//UPLOAD GAMBAR PENGUMUMAN
-		$newfile = $this->input->post('image-data', TRUE);
-		
-		define('UPLOAD_DIR', './uploads/pengumuman/');
-		$img = $newfile;
-		$img = str_replace('data:image/jpeg;base64,', '', $img);
-		$img = str_replace(' ', '+', $img);
-		$data = base64_decode($img);		
-		
-		
-		$namaFile = str_replace(' ', '+', $judul);
-		$file = UPLOAD_DIR . $namaFile . '.jpg';
-		$success = file_put_contents($file, $data);
-		
-		$path_gambar_pengumuman = $file;
-		
 		if ($this->form_validation->run() == TRUE)
-		{
+		{		
 			$data = array(
-				'id_pengguna' => $user,
-				'gambar' => $path_gambar_pengumuman,
-				'judul_berita' => $judul,
-				'isi_pengumuman' => $pengumuman
+				'tanggal' => $tanggal,
+				'waktu' => $waktu,
+				'tempat' => $tempat,
+				'acara' => $acara,
 			);
-	
-			$this->m_pengumuman->insertPengumuman($data);
-			$url='web/c_home/get_detail_pengumuman/';
-			$dataPages = array(
-				'url' => $url.mysql_insert_id(),
-				'title' => $judul,
-				'content' => $pengumuman	
-			);
-			$this->m_pages->insertPages($dataPages);
-			
-			
+			$this->m_pengumuman->insertpengumuman($data);	
 			redirect('admin/c_pengumuman','refresh');
         }
 		else $this->add();
     }
 
-		
-	function edit($id){
+    function edit($id){
 		$session['hasil'] = $this->session->userdata('logged_in');
 		$role = $session['hasil']->role;
 		if($this->session->userdata('logged_in') AND $role == 'Administrator')
 		{
-			$s['cek'] = $this->session->userdata('logged_in');
-			$x = $s['cek']->id_pengguna;
-			
-			$data['tempna'] = $this->m_user->getUserByIdPengguna($x);
-			$data['hasil'] = $this->m_pengumuman->getPengumumanByIdpengumuman($id);        		
+			$data['id_pengumuman'] = $id;
 			$data['page_title'] = 'UBAH PENGUMUMAN';
+			$data['hasil'] = $this->m_pengumuman->getpengumumanByIdpengumuman($id);
 			$data['menu'] = $this->load->view('menu/v_admin', $data, TRUE);
 			$data['content'] = $this->load->view('pengumuman/v_ubah', $data, TRUE);
-			
+        
 			$this->load->view('utama', $data);
 		}else
-			redirect('c_login', 'refresh');   
+			$this->load->view('c_login',true);
+        
     }
 	
-	function update_pengumuman() {	
-		$idb = $this->input->post('id_pengumuman', TRUE);
-		$nama = $this->input->post('id_pengguna', TRUE);		
-		$gambar = $this->input->post('gambar', TRUE);
-		$judulB = $this->input->post('judul_pengumuman', TRUE);
-		$pengumuman = $this->input->post('isi_pengumuman', TRUE);
+	function updatepengumuman() {	
+		$id_pengumuman = $this->input->post('id_pengumuman', TRUE);
+		$tanggal = $this->input->post('tanggal', TRUE);
+		$waktu = $this->input->post('waktu', TRUE);
+		$tempat = $this->input->post('tempat', TRUE);
+		$acara = $this->input->post('acara', TRUE);	
 		
-		$this->form_validation->set_rules('judul_pengumuman', 'Judul Pengumuman', 'required');
-		
-		//UPLOAD GAMBAR PENGUMUMAN
-		$newfile = $this->input->post('image-data', TRUE);
-		
-		define('UPLOAD_DIR', 'uploads/pengumuman/');
-		$img = $newfile;
-		$img = str_replace('data:image/jpeg;base64,', '', $img);
-		$img = str_replace(' ', '+', $img);
-		$data = base64_decode($img);		
-		
-		
-		$namaFile = str_replace(' ', '+', $judulB);
-		$file = UPLOAD_DIR . $namaFile . '.jpg';
-		$success = file_put_contents($file, $data);
-		
-		$path_gambar_pengumuman = $file;
-		
-		if ($this->form_validation->run() == TRUE){
+		$this->form_validation->set_rules('tempat', 'tempat', 'required');
+		$this->form_validation->set_rules('acara', 'Acara', 'required');
+
+		if ($this->form_validation->run() == TRUE)
+		{		
 			$data = array(
-			'id_pengumuman' => $idb,
-			'id_pengguna' => $nama,
-			'gambar' => $path_gambar_pengumuman,
-			'judul_pengumuman' => $judulB,
-			'isi_pengumuman' => $pengumuman
+				'id_pengumuman' => $id_pengumuman,
+				'tanggal' => $tanggal,
+				'waktu' => $waktu,
+				'tempat' => $tempat,
+				'acara' => $acara,
 			);
-			$result = $this->m_pengumuman->updatePengumuman(array('id_pengumuman' => $idb), $data);
-			$url='web/c_home/get_detail_pengumuman/';
-			$dataPages = array(
-				'url' => $url.$idb,
-				'title' => $judulB,
-				'content' => $pengumuman	
-			);
-			$result = $this->m_pages->updatePages(array('url' => $url.$idb), $dataPages);
-			
+			$this->m_pengumuman->updatepengumuman(array('id_pengumuman' => $id_pengumuman), $data);
 			redirect('admin/c_pengumuman','refresh');
-		}
-		else $this->edit($idb);
+        }
+		else $this->edit($id_pengumuman);
+		
     }
 	
-    function delete(){
-	$url='web/c_home/get_detail_pengumuman/';
+	function delete()    {
         $post = explode(",", $this->input->post('items'));
         array_pop($post); $sucess=0;
         foreach($post as $id){
-            $urlx=$url.$id;
-            $this->m_pages->deletePages($urlx);
-            $this->m_berita->deleteBerita($id);
-	    		
+            $this->m_pengumuman->deletepengumuman($id);
             $sucess++;
         }
-		
+	
         redirect('admin/c_pengumuman', 'refresh');
     }
+    
+      
 }
 ?>

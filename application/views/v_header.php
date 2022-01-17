@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html>
-<title>Kelurahan</title>
+<title>Desa Caringin Nunggal</title>
 <head>
 	<meta content="charset=utf-8">
 	<!-- CSS -->

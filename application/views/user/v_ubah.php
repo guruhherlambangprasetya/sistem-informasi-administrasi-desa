@@ -56,6 +56,7 @@
 						''=>'-- Pilih --',
 						'Administrator' => 'Administrator',
 						'Pengelola Data' => 'Pengelola Data Desa',
+                        'Warga' => 'Warga',
 						);
 					$id = 'id="role" class="form-control input-md" ';
 				echo form_dropdown('role',$options,$hasil->role,$id); ?>

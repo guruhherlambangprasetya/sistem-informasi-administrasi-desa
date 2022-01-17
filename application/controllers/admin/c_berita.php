@@ -128,7 +128,7 @@ class C_berita extends CI_Controller {
 		//UPLOAD GAMBAR BERITA
 		$newfile = $this->input->post('image-data', TRUE);
 		
-		define('UPLOAD_DIR', 'uploads/berita/');
+		define(UPLOAD_DIR, 'uploads/berita/');
 		$img = $newfile;
 		$img = str_replace('data:image/jpeg;base64,', '', $img);
 		$img = str_replace(' ', '+', $img);
