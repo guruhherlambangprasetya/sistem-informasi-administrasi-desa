@@ -1,10 +1,10 @@
 <div class="footer-atas">
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-7">
+			<div class="col-sm-4">
 				<div class="footer-content">
 					<center>
-						<h2>PORTAL RUKUN WARGA 017</h2>
+						<h3>PORTAL RUKUN WARGA 017</h3>
 					</center>
 					<legend></legend>
 					<p>
@@ -14,57 +14,60 @@
 					<div class="row">
 						<div class="col-md-13 col-sm-12 col-xs-12">
 							<p>
-							<h4>TERIMA KASIH ATAS KUNJUNGAN ANDA DI <b>PORTAL KELURAHAN AREN JAYA</b>, KAMI AKAN TERUS UPDATE SEPUTAR INFORMASI..<br><br>
+								TERIMA KASIH ATAS KUNJUNGAN ANDA DI <b>PORTAL KELURAHAN AREN JAYA</b>, KAMI AKAN TERUS UPDATE SEPUTAR INFORMASI..<br><br>
 								<strong>SEMANGAT SEHAT DAN JAGA PROTOKOL KESEHATAN</strong>
-							</h4>
+
 							</p>
 							<hr>
-						</div>
-						<div class="col-md-5 col-sm-12 col-xs-12">
-
-						</div>
-						<div class="col-md-12 col-sm-12 col-xs-12">
-							<div class="logo-footer img-responsive">
-								<footer class="footer" data-vmid="footer_1957005226">
-									<p class="footer__slogan">
-									<h3>Unduh Sekarang</h3>
-									</p>
-									<a href="https://itunes.apple.com/" target="_blank"><img style="width: 180px;" src="https://deo.shopeemobile.com/shopee/shopee-appdlpage-live-id/static/img/appleStore.0ca159be.png" alt="apple store"></a>
-									<a href="https://play.google.com/" target="_blank"><img style="width: 180px;" src="https://deo.shopeemobile.com/shopee/shopee-appdlpage-live-id/static/img/googlePlay.df026781.png" alt="google play"></a>
-								</footer>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="col-sm-5">
 				<div class="footer-content">
+					<div class="col-md-12 col-sm-12 col-xs-12">
+						<div class="logo-footer img-responsive">
+							<footer class="footer" data-vmid="footer_1957005226">
+								<p class="footer__slogan">
+									<center>
+										<h3>Unduh Sekarang</h3>
+									</center>
+									<hr>
+								</p>
+								<a href="https://itunes.apple.com/" target="_blank"><img style="width: 180px;" src="https://deo.shopeemobile.com/shopee/shopee-appdlpage-live-id/static/img/appleStore.0ca159be.png" alt="apple store"></a>
+
+								<a href="https://play.google.com/" target="_blank"><img style="width: 180px;" src="https://deo.shopeemobile.com/shopee/shopee-appdlpage-live-id/static/img/googlePlay.df026781.png" alt="google play"></a>
+							</footer>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-3">
+
+				<h3>Ikuti Sosial Media Kami</h3>
+				<hr>
+				<ul class="social-links circle">
 					<center>
-						<h3>Ikuti Sosial Media Kami</h3>
-						<hr>
-						<ul class="social-links circle">
-							<li class="link"><a target="_blank" href="https://blogbugabagi.blogspot.com" title="Website" rel="noopener noreferrer"><i class="fa fa-link"></i></a></li>
-							<li class="facebook"><a target="_blank" href="https://facebook.com/bugabagiblog" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-							<li class="twitter"><a target="_blank" href="https://twitter.com" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-							<li class="googleplus"><a target="_blank" href="http://plus.google.com/" title="Google+"><i class="fa fa-google-plus"></i></a></li>
-						</ul>
-						<hr>
+						<li class="link"><a target="_blank" href="https://blogbugabagi.blogspot.com" title="Website" rel="noopener noreferrer"><i class="fa fa-link"></i></a></li>
+						<li class="facebook"><a target="_blank" href="https://facebook.com/bugabagiblog" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+						<li class="twitter"><a target="_blank" href="https://twitter.com" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+						<li class="googleplus"><a target="_blank" href="http://plus.google.com/" title="Google+"><i class="fa fa-google-plus"></i></a></li>
 					</center>
+				</ul>
+				<hr>
+			</div>
+		</div>
+	</div>
+	<div class="footer-bawah">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div style="float:left">Copyright &copy; <?php echo date("Y"); ?> Sistem informasi administrasi desa</div>
+					<div style="float:right">Made with by blogbugabagi | Distributed by Guruh Herlambang Prasetya</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="footer-bawah">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div style="float:left">Copyright &copy; <?php echo date("Y"); ?> Sistem informasi administrasi desa</div>
-				<div style="float:right">Made with by blogbugabagi | Distributed by Guruh Herlambang Prasetya</div>
-			</div>
-		</div>
-	</div>
-</div>
 </div>
 </div>
 </div>
